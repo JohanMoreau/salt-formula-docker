@@ -1,21 +1,23 @@
 {% from "docker/map.jinja" import client with context %}
-{%- if client.get('enabled') %}
+{%- if client.get('enabled', False) %}
 
 include:
-  {%- if client.network is defined %}
+  {%- if pillar.docker.client.network is defined %}
   - docker.client.network
   {%- endif %}
+  {%- if pillar.docker.client.container is defined %}
   - docker.client.container
-  {%- if client.compose is defined %}
+  {%- endif %}
+  {%- if pillar.docker.client.compose is defined %}
   - docker.client.compose
   {%- endif %}
-  {%- if client.stack is defined %}
+  {%- if pillar.docker.client.stack is defined %}
   - docker.client.stack
   {%- endif %}
-  {%- if client.registry is defined %}
+  {%- if pillar.docker.client.registry is defined %}
   - docker.client.registry
   {%- endif %}
-  {%- if client.service is defined %}
+  {%- if pillar.docker.client.service is defined %}
   - docker.client.service
   {%- endif %}
 

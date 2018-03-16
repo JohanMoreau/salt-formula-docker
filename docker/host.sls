@@ -38,7 +38,7 @@ network.ipv4.ip_forward:
   - watch_in:
     - service: docker_service
 
-{%- if host.get('proxy', {}).get('enabled') %}
+{%- if host.get('proxy', {}).get('enabled', False) %}
 {%- if host.proxy.get('http') or host.proxy.get('https') or host.proxy.get('no_proxy') %}
 
 /etc/systemd/system/docker.service.d/http-proxy.conf:
@@ -81,10 +81,11 @@ docker_service:
 
 {%- for name,registry in host.registry.iteritems() %}
 
-docker_{{ registry.address }}_login:
+docker_{{ registry.get('address', name) }}_login:
   cmd.run:
-  - name: 'docker login -u {{ registry.user }} -p {{ registry.password }} {{ registry.address }}'
-  - unless: grep {{ registry.address }} /root/.docker/config.json
+  - name: 'docker login -u {{ registry.user }} -p {{ registry.password }}{% if registry.get('address') %} {{ registry.address }}{% endif %}'
+  - user: {{ registry.get('system_user', 'root') }}
+  - unless: grep {{ registry.address|default('https://index.docker.io/v1/') }} {{ salt['user.info'](registry.get('system_user', 'root')).home }}/.docker/config.json
 
 {%- endfor %}
 
