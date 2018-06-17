@@ -4,6 +4,9 @@
 
 ca-certificates:
   pkg.installed
+  
+gnupg:
+  pkg.installed
 
 docker_repo:
   pkgrepo.managed:
@@ -13,6 +16,7 @@ docker_repo:
   - keyserver: keyserver.ubuntu.com
   - require:
     - pkg: ca-certificates
+    - pkg: gnupg
 
 docker_packages:
   pkg.installed:
