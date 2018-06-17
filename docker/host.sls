@@ -2,16 +2,23 @@
 
 {%- if host.enabled %}
 
+ca-certificates:
+  pkg.installed
+
 docker_repo:
   pkgrepo.managed:
   - name: 'deb https://download.docker.com/linux/ubuntu {{ salt['grains.get']('oscodename') }} stable'
   - file: /etc/apt/sources.list.d/docker.list
   - keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
   - keyserver: keyserver.ubuntu.com
+  - require:
+    pkg: ca-certificates
 
 docker_packages:
   pkg.installed:
   - pkgs: {{ host.pkgs }}
+  - require:
+    pkgrepo: docker_repo
 
 {%- if grains.get('virtual_subtype', None) not in ['Docker', 'LXC'] %}
 
