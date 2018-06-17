@@ -10,7 +10,8 @@ gnupg:
 
 docker_repo:
   pkgrepo.managed:
-  - name: 'deb [ arch=amd64 ] https://download.docker.com/linux/ubuntu {{ salt['grains.get']('oscodename') }} stable'
+  #- name: 'deb [ arch=amd64 ] https://download.docker.com/linux/ubuntu {{ salt['grains.get']('oscodename') }} stable'
+  - name: 'deb [ arch=amd64 ] https://download.docker.com/linux/ubuntu trusty stable'
   - file: /etc/apt/sources.list.d/docker.list
   - keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
   - keyserver: keyserver.ubuntu.com
