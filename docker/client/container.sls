@@ -4,7 +4,7 @@
 include:
   - docker.client
 
-{%- for name, container in client.get('container', {}).iteritems() %}
+{%- for name, container in client.get('container', {}).items() %}
   {%- set id = name %}
   {%- set required_containers = [] %}
 
@@ -66,7 +66,7 @@ include:
   {%- endif %}
   {%- if 'environment' in container and container.environment is iterable %}
     - environment:
-    {%- for variable, value in container.environment.iteritems() %}
+    {%- for variable, value in container.environment.items() %}
         - {{variable}}: {{value}}
     {%- endfor %}
   {%- endif %}
@@ -121,7 +121,7 @@ include:
       {%- endif %}
     {%- endfor %}
   {%- endif %}
-  {%- for key, value in container.iteritems() %}
+  {%- for key, value in container.items() %}
     {%- if key not in blacklist.dockerng_running %}
     - {{ key }}: {{ value }}
     {%- endif %}

@@ -98,7 +98,7 @@ docker_service:
 
 {%- if host.registry is defined %}
 
-{%- for name,registry in host.registry.iteritems() %}
+{%- for name,registry in host.registry.items() %}
 
 docker_{{ registry.get('address', name) }}_login:
   cmd.run:
