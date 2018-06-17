@@ -12,13 +12,13 @@ docker_repo:
   - keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
   - keyserver: keyserver.ubuntu.com
   - require:
-    pkg: ca-certificates
+    - pkg: ca-certificates
 
 docker_packages:
   pkg.installed:
   - pkgs: {{ host.pkgs }}
   - require:
-    pkgrepo: docker_repo
+    - pkgrepo: docker_repo
 
 {%- if grains.get('virtual_subtype', None) not in ['Docker', 'LXC'] %}
 
